@@ -67,3 +67,33 @@ const User = require('../../models/user.js')
     })
 ```
 
+```shell
+// 引入mongoose
+const mongoose = require('mongoose');
+
+// 连接数据库
+mongoose.connect('mongodb://localhost/test');
+
+// 设计表的结构
+let Schema = mongoose.Schema
+
+let students = new Schema({
+    name: {
+        type: String,
+        require: true
+    },
+    age: {
+        type: Number,
+        required: true
+    },
+    bob: {
+        type: String,
+        required: true
+    }
+})
+
+// 将文档结构发布为模型  mongoose.model('大写名词来表示数据库名称'，'架构')
+let User = mongoose.model("User", students)
+module.exports=User;
+```
+
