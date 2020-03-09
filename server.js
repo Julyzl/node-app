@@ -12,8 +12,9 @@ mongoose.connect(db.mongoURI).then(res => {
 })
 
 // 引入body-paerser,post请求体设置
+// 使用body-parser中间件
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 
 const port = process.env.port || 5000;
@@ -23,7 +24,7 @@ const user = require('./routes/api/users.js')
 app.get('/', (req, res) => {
     res.end("hello world!")
 })
-
+const token = require('./routes/service/token')
 app.use('/api/user', user)
 
 

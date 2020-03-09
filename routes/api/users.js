@@ -2,15 +2,22 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcryptjs');
 const gravatar = require('gravatar');
-const User = require('../../models/user.js')
+
+const User = require('../../models/user.js') // 引入数据模型
+const token = require('../service/token'); // 引入token
+const validateRegisterInput = require('../../validation/sign.js');
 router.get('/text', (req, res) => {
     res.json({ msg: "sjhsfj" })
 })
 
 // 注册模块
 router.post('/register', (req, res) => {
+    // 验证注册信息
+    const { errors, isError } = validateRegisterInput(req.body)
+
+    if (!isError) res.json(errors);
     // 查询数据库中是否存在邮箱
-    console.log(req.body);
+
     User.findOne({ email: req.body.email }).then((data) => {
         if (data) {
             return res.status(400).json({ email: "邮箱已经被注册" })
@@ -52,15 +59,20 @@ router.post('/login', (req, res) => {
                 return res.status(404).json({ msg: '邮箱不存在' })
             }
             // 密码匹配
-            console.log(password);
-            console.log(user.password)
             bcrypt.compare(password, user.password).then(isMatch => {
                 if (isMatch) {
-                    res.json({ msg: "success" });
+                    let sendToken = token.createToken(user.id)
+                        // console.log(sendToken)
+                    res.json({ msg: "success", token: sendToken });
                 } else {
                     return res.status(400).json({ password: '密码错误!' });
                 }
             });
         })
+})
+
+
+router.get('/current', token.verifyToken, (req, res) => {
+    console.log("sss")
 })
 module.exports = router
