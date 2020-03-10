@@ -12,10 +12,11 @@ router.get('/text', (req, res) => {
 
 // 注册模块
 router.post('/register', (req, res) => {
-    // 验证注册信息
+    console.log(1)
+        // 验证注册信息
     const { errors, isError } = validateRegisterInput(req.body)
 
-    if (!isError) res.json(errors);
+    if (!isError) res.status(400).json(errors);
     // 查询数据库中是否存在邮箱
 
     User.findOne({ email: req.body.email }).then((data) => {
@@ -63,7 +64,9 @@ router.post('/login', (req, res) => {
                 if (isMatch) {
                     let sendToken = token.createToken(user.id)
                         // console.log(sendToken)
-                    res.json({ msg: "success", token: sendToken });
+                    console.log(user.id)
+                    req.session.id = user.id
+                    res.json({ id: user.id, msg: "success", token: sendToken });
                 } else {
                     return res.status(400).json({ password: '密码错误!' });
                 }

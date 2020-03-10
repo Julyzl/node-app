@@ -1,6 +1,9 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const session = require('express-session');
+
+const router = require('./router.js');
 const app = express();
 
 // 引入链接 并且数据库链接
@@ -16,16 +19,24 @@ mongoose.connect(db.mongoURI).then(res => {
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+//express不支持Cookie和Session
+//用express-session插件来解决
+app.use(session({
+    //配置加密字符串
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+}))
 
 const port = process.env.port || 5000;
 
-const user = require('./routes/api/users.js')
+
 
 app.get('/', (req, res) => {
     res.end("hello world!")
 })
 const token = require('./routes/service/token')
-app.use('/api/user', user)
+router(app)
 
 
 app.listen(port, () => {

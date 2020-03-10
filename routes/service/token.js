@@ -28,11 +28,11 @@ const verifyToken = (req, res, next) => {
                 })
             }
         } else {
-            res.status(200).json({
-                code: 200,
-                msg: '验证成功',
-                userid: decode.userid
-            })
+            // res.status(200).json({
+            //     code: 200,
+            //     msg: '验证成功',
+            //     userid: decode.userid
+            // })
             next()
         }
     })
