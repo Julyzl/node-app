@@ -14,9 +14,10 @@ router.get('/text', (req, res) => {
 
 // 获取个人信息接口
 router.get("/", (req, res) => {
-    console.log(req.body)
+    console.log(1111)
+    console.log(req.query.id)
     let errors = {}
-    Profile.findOne({ user: req.body.id })
+    Profile.findOne({ user: req.query.id })
         .populate('user', ["name", "avatar", 'email']) //关联表
         .then((data) => {
             if (!data) {
@@ -193,11 +194,11 @@ router.post("/education", (req, res) => {
 })
 
 // 删除个人经历
-router.delete("/experience/:exp_id", (req, res) => {
-    console.log(11)
-    Profile.findOne({ user: req.params.exp_id }).then(data => {
+router.post("/experience/del", (req, res) => {
+
+    Profile.findOne({ user: req.body.id }).then(data => {
         console.log(data)
-        const index = data.experience.findIndex(i => i.id = req.params.exp_id)
+        const index = data.experience.findIndex(i => i.id = req.body.del_id)
         data.experience.splice(index, 1)
         data.save().then(resp => {
             res.status(200).json(resp)
@@ -219,7 +220,6 @@ router.delete("/education/:edu_id", (req, res) => {
 
 // 删除整个用户
 router.post("/del", (req, res) => {
-
     Profile.findOneAndRemove({ user: req.body.id })
         .then(() => {
             User.findOneAndRemove({ _id: req.body.id })

@@ -8,60 +8,41 @@
             <h1 class="display-4 text-center">创建账户</h1>
             <p class="lead text-center">创建你的新账户</p>
             <form @submit.prevent="submit" autocomplete="off">
-              <div class="form-group">
-                <input
+
+                <TextField
                   type="text"
-                  class="form-control form-control-lg"
                   placeholder="Name"
                   v-model="newUser.name"
-                  :class="{ 'is-invalid': errors.name }"
+                  :error="errors.name"
                   name="name"
                   required
                 />
-                <div v-if="errors.name" class="invalid-feedback">
-                  {{ errors.name }}
-                </div>
-              </div>
 
-              <div class="form-group">
-                <input
+                <TextField
                   type="email"
-                  class="form-control form-control-lg"
                   placeholder="Email Address"
                   name="email"
                   v-model="newUser.email"
-                  :class="{ 'is-invalid': errors.email }"
+                  :error="errors.email"
                 />
-                <div v-if="errors.email" class="invalid-feedback">
-                  {{ errors.email }}
-                </div>
-              </div>
-              <div class="form-group">
-                <input
+
+                <TextField
                   type="password"
-                  class="form-control form-control-lg"
                   placeholder="Password"
                   name="password"
                   v-model="newUser.password"
-                  :class="{ 'is-invalid': errors.password }"
+                  :error="errors.password"
                 />
-                <div v-if="errors.password" class="invalid-feedback">
-                  {{ errors.password }}
-                </div>
-              </div>
-              <div class="form-group">
-                <input
+
+                <TextField
                   type="password"
-                  class="form-control form-control-lg"
                   placeholder="Confirm Password"
                   name="password2"
                   v-model="newUser.password2"
-                  :class="{ 'is-invalid': errors.password2 }"
+                  :error="errors.password2"
                 />
-                <div v-if="errors.password2" class="invalid-feedback">
-                  {{ errors.password2 }}
-                </div>
-              </div>
+  
+           
               <input type="submit" class="btn btn-info btn-block mt-4" />
             </form>
           </div>
@@ -72,6 +53,7 @@
 </template>
 
 <script>
+import TextField from './common/TextFieldGroup'
 export default {
   data() {
     return {
@@ -84,9 +66,11 @@ export default {
       errors: {}
     };
   },
+  components:{
+    TextField
+  },
   methods: {
     submit() {
-      console.log(11);
       this.$axios
         .post("/api/user/register", this.newUser)
         .then(res => {

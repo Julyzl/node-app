@@ -4,9 +4,8 @@ const passport = require('passport');
 
 let keys = 'july'
     // 创建token
-const createToken = (user_id) => {
-    const rule = { id: user_id }
-
+const createToken = (user_id, name, avatar) => {
+    const rule = { id: user_id, name: name, avatar: avatar }
     let exp = { expiresIn: 3600 }
     let token = jwt.sign(rule, keys, exp)
     return token;
