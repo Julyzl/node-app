@@ -15,5 +15,8 @@ export default {
         commit('setProfile', null);
         commit('setUser', null);
         commit('setIsAuthenticated', false);
-    }
+    },
+    setProfiles({ commit }, data) {
+        commit('setProfiles', data)
+    },
 }

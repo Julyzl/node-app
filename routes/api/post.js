@@ -51,19 +51,19 @@ router.get("/:id", (req, res) => {
 })
 
 // 删除单个信息 删除的信息id 
-router.delete("/:id", (req, res) => {
-    console.log(req.body);
-    let user_id = req.body.id
-    Post.find({ _id: req.params.id }).then(data => {
-        if (data.user.toString() !== user_id) {
-            return res.status(401).json({ msg: "用户非法操作!" })
-        }
-        data.remove().then(() => res.json({ success: true }))
-    }).catch(err => {
-        return res.status(404).json({ postnotfound: "没有该评论信息" })
+router.post("/del", (req, res) => {
+    Profile.findOne({ user: req.body.id }).then(profile => {
+        Post.findById(req.body.del_id)
+            .then(post => {
+                // 判断是否是本人
+                if (post.user.toString() !== req.body.id) {
+                    return res.status(401).json({ notauthorized: "用户非法操作!" })
+                }
+
+                post.remove().then(() => res.json({ success: true }))
+            })
+            .catch(err => res.status(404).json({ postnotfound: "没有该评论信息" }))
     })
-
-
 })
 
 // 点赞

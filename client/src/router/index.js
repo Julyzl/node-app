@@ -5,7 +5,7 @@ Vue.use(Router);
 
 const route = new Router({
     mode: "history",
-    linkActiveClass: 'active',
+    linkActiveClass: "active",
     routes: [{
             path: "*",
             redirect: "/"
@@ -41,31 +41,51 @@ const route = new Router({
                 import ("../components/CreateProfile")
         },
         {
-            path: '/edit-profile',
+            path: "/edit-profile",
             component: () =>
                 import ("../components/EditProfile")
         },
         {
-            path: '/add-experience',
+            path: "/add-experience",
             component: () =>
                 import ("../components/AddExperience")
         },
         {
-            path: '/add-education',
+            path: "/add-education",
             component: () =>
                 import ("../components/AddEducation")
         },
+        {
+            path: "/profiles",
+            component: () =>
+                import ("../components/Profiles")
+        },
+        {
+            path: "/profile/:handle",
+            component: () =>
+                import ("../components/Profile/Profile")
+        },
+        {
+            path: "/posts",
+            component: () =>
+                import ("../components/Posts/Posts")
+        },
+        {
+            path: "/post/:id",
+            component: () =>
+                import ("../components/Posts/Post")
+        }
     ]
 });
 
 // 全局守卫
 route.beforeEach((to, from, next) => {
-    const isLogin = localStorage.token ? true : false
+    const isLogin = localStorage.token ? true : false;
 
-    if (to.path == '/login' || to.path == '/register' || to.path == '/') {
+    if (to.path == "/login" || to.path == "/register" || to.path == "/") {
         next();
     } else {
-        isLogin ? next() : next('/login');
+        isLogin ? next() : next("/login");
     }
-})
+});
 export default route;

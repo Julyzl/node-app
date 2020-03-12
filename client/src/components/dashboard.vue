@@ -66,6 +66,16 @@ export default {
          console.log(res.response.data);
        })
     },
+    deleteEducation(del_id){
+       let id =this.$store.getters.user.id
+       this.$axios.post(`/api/profile/education/del`,{id:id,del_id:del_id})
+       .then(res=>{
+       this.profile=res.data
+       })
+       .catch(err=>{
+         console.log(res.response.data);
+       })
+    },
     getProfileData() {
         const params={
             id:this.$store.getters.user.id

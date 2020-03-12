@@ -9,7 +9,9 @@ const state = {
     isAuthenticated: false, // 是否认证登录
     user: {}, // 用户登录信息
     profile: {}, // 用户个人信息
-    loading: false // 是否加载动画
+    loading: false, // 是否加载动画 
+    profiles: [] // 开发者信息
+
 }
 export default new Vuex.Store({
     state,

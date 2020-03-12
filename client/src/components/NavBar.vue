@@ -19,6 +19,11 @@
         </ul>
 
         <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+            <router-link class="nav-link" v-show="isLogin" to="/posts"
+              >留言</router-link
+            >
+          </li>
           <li class="nav-item">
             <router-link class="nav-link" v-show="isLogin" to="/dashboard"
               >Person</router-link
@@ -35,6 +40,7 @@
             >
           </li>
           <li class="nav-item" v-show="isLogin">
+         
             <a @click.prevent="logout" class="nav-link">
               <img
                 :src="user.avatar"
@@ -65,6 +71,9 @@ export default {
       } else {
         return false;
       }
+    },
+        user() {
+      return this.$store.getters.user;
     }
   },
   methods: {
@@ -79,9 +88,7 @@ export default {
       // 跳转登录
       this.$router.push("/login");
     },
-    user() {
-      return this.$store.getters.user;
-    }
+
   }
 };
 </script>

@@ -207,10 +207,10 @@ router.post("/experience/del", (req, res) => {
 })
 
 // 删除教育经历
-router.delete("/education/:edu_id", (req, res) => {
+router.post("/education/del", (req, res) => {
 
-    Profile.findOne({ user: req.params.edu_id }).then(data => {
-        const index = data.education.findIndex(i => i.id = req.params.edu_id)
+    Profile.findOne({ user: req.body.id }).then(data => {
+        const index = data.education.findIndex(i => i.id = req.body.del_id)
         data.education.splice(index, 1)
         data.save().then(resp => {
             res.status(200).json(resp)
